@@ -1,6 +1,28 @@
+from typing import Any
+
 from rest_framework import serializers
 
+from api.services import RegistrationValidatorService
 from users.models import User
+
+
+class CodeField:
+    """Code field with a range from 100000 to 999999."""
+    code = serializers.IntegerField(min_value=100000, max_value=999999)
+
+
+class RegistrationSerializer(serializers.ModelSerializer, CodeField):
+    """Serializer for user registration."""
+    confirm_password = serializers.CharField()
+
+    class Meta:
+        model = User
+        _fields = ('email', 'username', 'password', 'confirm_password', 'code')
+        fields = _fields
+        write_only_fields = _fields
+
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
+        return RegistrationValidatorService(attrs)()
 
 
 class UserSerializer(serializers.ModelSerializer):
