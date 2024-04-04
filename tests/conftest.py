@@ -34,3 +34,15 @@ def as_user(user: User) -> APIClient:
     as_user = APIClient()
     as_user.force_authenticate(user=user)
     return as_user
+
+
+@pytest.fixture
+def registration_data() -> dict[str, int | str]:
+    password = person.password(length=20)
+    return {
+        'email': person.email(),
+        'username': person.username(),
+        'password': password,
+        'confirm_password': password,
+        'code': 123456,
+    }

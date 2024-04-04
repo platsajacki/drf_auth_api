@@ -14,7 +14,7 @@ class EmailCodeValidatorService(BaseService):
 
     def validate_email_code(self) -> None:
         if cache.get(self.attrs['email']) != self.attrs['code']:
-            return ValidationError('Invalid code.')
+            raise ValidationError('Invalid code.')
 
     def get_validators(self) -> list[Callable]:
         return super().get_validators() + [self.validate_email_code]
