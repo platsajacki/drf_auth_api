@@ -9,6 +9,7 @@ from users.models import User
 
 
 class RegistrationView(CreateAPIView):
+    """User registration."""
     serializer_class = RegistrationSerializer
 
 

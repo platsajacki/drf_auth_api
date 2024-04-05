@@ -13,7 +13,7 @@ class EmailCodeValidatorService(BaseService):
     attrs: dict[str, Any]
 
     def validate_email_code(self) -> None:
-        if cache.get(self.attrs['email']) != self.attrs['code']:
+        if cache.get(self.attrs['email']) != self.attrs.pop('code'):
             raise ValidationError('Invalid code.')
 
     def get_validators(self) -> list[Callable]:

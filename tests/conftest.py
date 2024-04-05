@@ -1,5 +1,6 @@
 import pytest
 
+from django.core.cache import cache
 from rest_framework.test import APIClient
 
 from factory import person
@@ -46,3 +47,8 @@ def registration_data() -> dict[str, int | str]:
         'confirm_password': password,
         'code': 123456,
     }
+
+
+@pytest.fixture
+def cache_email_code(registration_data: dict[str, int | str]) -> None:
+    return cache.set(registration_data['email'], registration_data['code'])
